@@ -1,12 +1,18 @@
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
-import HomeScreen from '../scenes/home/index';
+
+import LoadingScreen from '../scenes/loading/index';
+
+import AppNavigator from '../navigation/app-navigator';
+import AuthNavigator from '../navigation/auth-navigator';
 
 const RootNavigator = createSwitchNavigator(
   {
-    Home: HomeScreen,
+    Loading: LoadingScreen,
+    App: AppNavigator,
+    Auth: AuthNavigator,
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Loading',
   },
 );
 
