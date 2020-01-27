@@ -2,21 +2,15 @@ import update from 'react-addons-update';
 import * as ACTION_TYPES from '../constants/actionTypes';
 
 const initialState = {
-  loading: false,
+  data: {},
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case ACTION_TYPES.LOADING_START:
+    case ACTION_TYPES.GET_REPOSITORY:
       return update(state, {
-        loading: {
-          $set: true,
-        },
-      });
-    case ACTION_TYPES.LOADING_STOP:
-      return update(state, {
-        loading: {
-          $set: false,
+        data: {
+          $set: action.data.data,
         },
       });
     default:

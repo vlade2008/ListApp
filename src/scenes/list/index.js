@@ -1,9 +1,11 @@
 import React from 'react';
 import {Button, AsyncStorage, View, TextInput} from 'react-native';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import NavigationService from '../../utils/NavigationService';
 import styles from './styles';
 import debounce from 'lodash/debounce';
+import * as repositoryAction from '../../actions/repositoryAction';
 
 const _logoutAsync = async () => {
   await AsyncStorage.removeItem('userToken');
@@ -20,7 +22,7 @@ class List extends React.Component {
     headerRight: <Button onPress={_logoutAsync} title="Logout" />,
   };
   debounceTest = debounce(() => {
-    _logoutAsync();
+    this.props.repositoryAction.getRepository();
   }, 1000);
   _onHandleChangeText = value => {
     this.setState(
@@ -33,6 +35,7 @@ class List extends React.Component {
     );
   };
   render() {
+    console.log('props', this.props);
     return (
       <View style={styles.container}>
         <TextInput
@@ -44,12 +47,18 @@ class List extends React.Component {
     );
   }
 }
-const mapStateProps = state => ({});
-const mapDispatch = dispatch => {
-  return {};
-};
-const connector = connect(
-  mapStateProps,
-  mapDispatch,
-);
-export default connector(List);
+function mapStateToProps(state) {
+  return {
+    repository: state.repository,
+    loading: state.app.loading,
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    repositoryAction: bindActionCreators(repositoryAction, dispatch),
+  };
+}
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(List);
