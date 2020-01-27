@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   description: {
-    marginTo: 10,
+    marginTop: 10,
   },
 });
 export default styles;
