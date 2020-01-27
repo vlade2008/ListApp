@@ -1,11 +1,21 @@
 import React from 'react';
-import {Button, AsyncStorage, View, TextInput} from 'react-native';
+import {
+  Button,
+  AsyncStorage,
+  View,
+  TextInput,
+  SafeAreaView,
+  TouchableHighlight,
+  Text,
+} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import NavigationService from '../../utils/NavigationService';
 import styles from './styles';
 import debounce from 'lodash/debounce';
 import * as repositoryAction from '../../actions/repositoryAction';
+import CustomListView from '../../components/CustomListView';
+import CustomLoading from '../../components/CustomLoading';
 
 const _logoutAsync = async () => {
   await AsyncStorage.removeItem('userToken');
@@ -22,7 +32,7 @@ class List extends React.Component {
     headerRight: <Button onPress={_logoutAsync} title="Logout" />,
   };
   debounceTest = debounce(() => {
-    this.props.repositoryAction.getRepository();
+    this.props.repositoryAction.getRepository(this.state.search);
   }, 1000);
   _onHandleChangeText = value => {
     this.setState(
@@ -34,16 +44,45 @@ class List extends React.Component {
       },
     );
   };
-  render() {
-    console.log('props', this.props);
+  keyExtractor = item => item.id.toString();
+  renderItem = item => {
+    let {name, owner} = item;
     return (
-      <View style={styles.container}>
+      <TouchableHighlight
+        style={styles.touchableButton}
+        onPress={this._onPressButton(item)}>
+        <View style={styles.listItemContainer}>
+          <View style={styles.listItem} />
+          <View style={styles.listItemDetails}>
+            <Text>{name}</Text>
+            <Text style={styles.listItemDetailsText}>by {owner.login} </Text>
+          </View>
+        </View>
+      </TouchableHighlight>
+    );
+  };
+  _onPressButton = item => {
+    return () => {
+      this.props.navigation.navigate('Detail', item);
+    };
+  };
+  render() {
+    let data = this.props.repository.data.items || [];
+    return (
+      <SafeAreaView style={styles.container}>
         <TextInput
           style={styles.input}
-          placeholder="Search"
+          placeholder="Search Repository"
           onChangeText={this._onHandleChangeText}
         />
-      </View>
+        <CustomLoading loading={this.props.loading} />
+        <CustomListView
+          data={data}
+          keyExtractor={this.keyExtractor}
+          renderItem={item => this.renderItem(item.item)}
+          refreshing={this.props.loading}
+        />
+      </SafeAreaView>
     );
   }
 }

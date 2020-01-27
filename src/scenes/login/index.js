@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Button, AsyncStorage, TextInput} from 'react-native';
+import {Button, AsyncStorage, TextInput, SafeAreaView} from 'react-native';
 import {connect} from 'react-redux';
 import styles from './styles';
 
@@ -14,7 +14,7 @@ class Login extends React.Component {
   };
   render() {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -26,7 +26,7 @@ class Login extends React.Component {
           secureTextEntry
         />
         <Button color="orange" title="Sign in" onPress={this._signInAsync} />
-      </View>
+      </SafeAreaView>
     );
   }
 }

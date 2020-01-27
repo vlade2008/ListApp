@@ -3,6 +3,9 @@ import {SafeAreaView, Text} from 'react-native';
 import {connect} from 'react-redux';
 
 class Detail extends React.Component {
+  static navigationOptions = {
+    title: 'Repository Details',
+  };
   render() {
     return (
       <SafeAreaView>
