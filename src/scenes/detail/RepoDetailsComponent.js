@@ -3,6 +3,13 @@ import {Text, View, Button, Image, Linking} from 'react-native';
 import styles from './styles';
 
 export default class RepoDetailsComponent extends React.PureComponent {
+  onPressCall = url => {
+    Linking.canOpenURL(url).then(supported => {
+      if (supported) {
+        return Linking.openURL(url).catch(() => null);
+      }
+    });
+  };
   render() {
     let {
       name,
@@ -20,7 +27,7 @@ export default class RepoDetailsComponent extends React.PureComponent {
         <Button
           title="Go to Repo"
           onPress={() => {
-            Linking.openURL(html_url);
+            this.onPressCall(html_url);
           }}
         />
       </View>
