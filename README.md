@@ -16,6 +16,12 @@ cd ios
 pod install
 ```
 4. Run Project
+For ios
 ```
 yarn ios
 ```
+For Android
+```
+yarn android
+```
+
