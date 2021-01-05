@@ -10,7 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "lodash.debounce": "^4.0.8",
     "react": "16.9.0",
     "react-addons-update": "^15.6.2",
